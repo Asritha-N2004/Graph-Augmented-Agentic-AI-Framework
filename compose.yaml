@@ -1,0 +1,46 @@
+services:
+  trainer:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command: python -m backend.pipeline --epochs 40
+    volumes:
+      - cirp-data:/app/backend/data
+      - cirp-artifacts:/app/backend/artifacts
+      - cirp-db:/app/storage
+    environment:
+      DATABASE_URL: sqlite:////app/storage/cirp.db
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    depends_on:
+      trainer:
+        condition: service_completed_successfully
+    ports: ["8000:8000"]
+    environment:
+      DATABASE_URL: sqlite:////app/storage/cirp.db
+      CORS_ORIGINS: http://localhost:3000
+      BACKEND_API_KEY: ${BACKEND_API_KEY:?Set BACKEND_API_KEY in .env}
+    volumes:
+      - cirp-data:/app/backend/data
+      - cirp-artifacts:/app/backend/artifacts
+      - cirp-db:/app/storage
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+    depends_on: [backend]
+    ports: ["3000:3000"]
+    environment:
+      BACKEND_URL: http://backend:8000
+      BACKEND_API_KEY: ${BACKEND_API_KEY:?Set BACKEND_API_KEY in .env}
+      AUTH_EMAIL: ${AUTH_EMAIL:?Set AUTH_EMAIL in .env}
+      AUTH_PASSWORD: ${AUTH_PASSWORD:?Set AUTH_PASSWORD in .env}
+      AUTH_SECRET: ${AUTH_SECRET:?Set AUTH_SECRET in .env to at least 32 random characters}
+volumes:
+  cirp-data:
+  cirp-artifacts:
+  cirp-db:

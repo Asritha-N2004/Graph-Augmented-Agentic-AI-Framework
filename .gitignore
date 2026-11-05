@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+node_modules/
+.next/
+.env
+.env.local
+*.tsbuildinfo
+*.db
+backend/artifacts/
+backend/data/
+mlruns/
+.deps/
+*.log
+.deploy/
+.vercel/

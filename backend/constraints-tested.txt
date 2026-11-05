@@ -1,0 +1,25 @@
+# Direct dependency versions exercised in this Windows session.
+# Install using: pip install -r backend/requirements.txt -c backend/constraints-tested.txt
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+pydantic==2.14.3
+sqlalchemy==2.1.8
+psycopg[binary]==3.3.8
+pandas==3.0.3
+numpy==2.5.4
+scipy==1.18.0
+scikit-learn==1.9.0
+matplotlib==3.11.1
+seaborn==0.13.2
+plotly==7.1.0
+networkx==3.6.1
+torch==2.13.0
+torch-geometric==2.8.1
+joblib==1.5.3
+langgraph==1.2.11
+langchain-openai==1.6.0
+mlflow-skinny==3.18.0
+alembic==1.20.1
+reportlab==5.1.0
+pytest==9.2.0
+httpx==0.28.1
